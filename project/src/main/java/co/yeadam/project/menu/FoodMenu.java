@@ -17,6 +17,7 @@ public class FoodMenu {
 		while(run) {
 			
 			System.out.println("1.전체메뉴조회   2.메뉴상세조회   3.메뉴등록   4.메뉴수정   5.메뉴삭제");
+			System.out.print("선택>> ");
 			int s = sc.nextInt();
 			switch(s) {
 			case 1:
@@ -28,6 +29,12 @@ public class FoodMenu {
 				break;
 			case 3:
 				addFood();
+				break;
+			case 4:
+				modifyFood();
+				break;
+			case 5:
+				deleteFood();
 				break;
 			}
 		}
@@ -41,7 +48,7 @@ public class FoodMenu {
 		foods = dao.foodSelectList();
 		
 		for(FoodVO f : foods) {
-			System.out.println("이름:"+f.getFoodName()+"\t가격:"+f.getFoodPrice());
+			System.out.println("이름:"+f.getFoodName()+"\t가격:"+f.getFoodPrice()+"\t판매량:"+f.getFoodSell());
 		}
 
 	}
@@ -79,5 +86,33 @@ public class FoodMenu {
 		else {
 			System.out.println("등록완료");
 		}
+	}
+	
+	public void modifyFood() {
+		FoodVO food = new FoodVO();
+		System.out.print("수정할 메뉴 이름 입력>>");
+		String menu = sc.next();
+		System.out.print("새로운 가격>> ");
+		int price = sc.nextInt();
+		sc.nextLine();
+		System.out.print("새로운 설명>> ");
+		String script = sc.nextLine();
+		food.setFoodName(menu);
+		food.setFoodPrice(price);
+		food.setFoodScript(script);
+		int r = dao.foodUpdate(food);
+		if(r==1) System.out.println("수정 완료");
+		else System.out.println("수정 실패");
+	}
+	
+	public void deleteFood() {
+		FoodVO food = new FoodVO();
+		System.out.print("삭제할 메뉴 이름 입력>> ");
+		String name = sc.next();
+		food.setFoodName(name);
+		int r = dao.foodDelete(food);
+		if(r==1) System.out.println("삭제 완료");
+		else System.out.println("삭제 실패");
+		
 	}
 }

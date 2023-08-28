@@ -13,8 +13,15 @@
 	</select>
 
 	<insert id = "foodInsert" parameterType="co.yeadam.project.food.service.FoodVO">
-		 INSERT INTO FOOD VALUES ((SELECT MAX(FOOD_ID)+1 FROM FOOD), #{foodName}, #{foodPrice}, #{foodScript})
+		 INSERT INTO FOOD VALUES ((SELECT MAX(FOOD_ID)+1 FROM FOOD), #{foodName}, #{foodPrice}, #{foodScript}, 0)
 	</insert>
+	
+	<update id="foodUpdate" parameterType="co.yeadam.project.food.service.FoodVO">
+		UPDATE FOOD SET FOOD_PRICE = #{foodPrice}, FOOD_SCRIPT = #{foodScript} WHERE FOOD_NAME = #{foodName}
+	</update>
 
+	<delete id="foodDelete" parameterType="co.yeadam.project.food.service.FoodVO">
+		 DELETE FROM FOOD WHERE FOOD_NAME = #{foodName}
+	</delete>
 
 </mapper>

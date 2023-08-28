@@ -30,14 +30,12 @@ public class FoodServiceImpl implements FoodService{
 
 	@Override
 	public int foodDelete(FoodVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.foodDelete(vo);
 	}
 
 	@Override
 	public int foodUpdate(FoodVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.foodUpdate(vo);
 	}
 
 }

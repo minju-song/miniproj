@@ -21,6 +21,7 @@ public class MainMenu {
 		}
 		
 		System.out.println("1.음식메뉴 관리   2.주문관리");
+		System.out.print("선택>> ");
 		int menu = sc.nextInt();
 		switch(menu) {
 		case 1:
