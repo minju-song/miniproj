@@ -1,40 +1,37 @@
-create table food (
- food_id number primary key,
- food_name varchar2(20) not null,
- food_price number not null,
- food_script varchar2(50));
- 
-  create table employee (
- emp_id varchar2(20) primary key,
- emp_pw varchar2(20) not null,
- emp_name varchar2(20) not null);
- 
-  INSERT INTO FOOD VALUES ((select MAX(food_id)+1 from food), '≈¡»ƒ∑Á', 3000, 'µ˛±‚');
- 
-  insert into food
- values (1, '∂Û∏È', 3500, 'æ»º∫≈¡∏È');
- 
-  insert into employee 
- values ('minju', 'minju', 'º€πŒ¡÷');
- 
- select * from food;
- commit;
- 
- DELETE FROM food WHERE food_name = 'øÕ«√';
- 
- update food set food_sell = 0 where food_id = 3;
- 
- ALTER TABLE food ADD(food_sell NUMBER); 
- 
- update food set food_price = 5000, food_script = 'Ω≈∂Û∏È' where food_name = '∂Û∏È';
- 
- select * from employee;
- 
- create table orders (
- order_id number primary key,
- order_table number not null,
- order_people number not null,
- order_price number,
- FOREIGN KEY (order_food) REFERENCES FOOD (FOOD_ID),
- FOREIGN KEY (order_emp) REFERENCES employee (emp_id)
- );
+select * from food;
+select * from employee;
+select * from orders;
+select * from order_food;
+create table orders (
+order_id number primary key,
+order_table number,
+order_people number,
+order_price number,
+order_emp varchar2(20));
+
+create table order_food (
+order_id number,
+food_id number,
+primary key (order_id, food_id),
+foreign key (order_id) references orders (order_id),
+foreign key (food_id) references food (food_id));
+
+insert into orders (order_id, order_table, order_people,order_emp)
+values (1, 1, 2, (select emp_id from employee where emp_name = 'º€πŒ¡÷'));
+
+insert into order_food (order_id, food_id)
+values (1,1);
+
+insert into order_food (order_id, food_id)
+values (1,2);
+
+select * from order_food where order_id = 1;
+commit;
+update orders o
+set order_price = (
+    select sum(f.food_price)
+    from food f
+    join order_food ofd on f.food_id = ofd.food_id
+    where ofd.order_id = o.order_id
+)
+where order_id = 1;
