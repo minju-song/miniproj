@@ -1,5 +1,7 @@
 package co.yeadam.project.menu;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import co.yeadam.project.employee.service.EmployeeService;
@@ -16,7 +18,9 @@ public class MainMenu {
 	
 	//시작메뉴
 	public void run() {
-		
+		List<EmployeeVO> e = new ArrayList<>();
+		e = dao.employeeSelectList();
+		if(e.size()==0) singIn();
 		boolean ck = true;
 		while(ck) {
 			System.out.println("=*======*=");
@@ -34,7 +38,26 @@ public class MainMenu {
 
 	}
 	
-	
+	//회원가입
+	private void singIn() {
+		System.out.println("회원가입을 진행해주세요.");
+		System.out.print("아이디 입력>> ");
+		String id = sc.next();
+		System.out.print("비밀번호 입력>> ");
+		String pw = sc.next();
+		System.out.print("이름 입력>> ");
+		String name = sc.next();
+		System.out.print("연락처 입력>> ");
+		String phone = sc.next();
+		EmployeeVO e = new EmployeeVO(id,pw,name,phone);
+		int r = dao.employeeInsertKing(e);		
+		System.out.println();
+		if (r == 1) System.out.println(e.getEmpName()+"님이 사장으로 등록되었습니다.");
+		else System.out.println("등록에 실패하였습니다.");
+		
+	}
+
+
 	//로그인
 	public EmployeeVO checkLogin() {
 		System.out.print("ID>> ");

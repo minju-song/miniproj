@@ -7,6 +7,7 @@ public interface EmployeeService {
 	EmployeeVO employeeSelect(EmployeeVO emp);
 	int employeeUpdate(EmployeeVO emp);
 	int employeeInsert(EmployeeVO emp);
+	int employeeInsertKing(EmployeeVO emp);
 	int employeDelete(EmployeeVO emp);
 	int employeeSell(EmployeeVO emp);
 }

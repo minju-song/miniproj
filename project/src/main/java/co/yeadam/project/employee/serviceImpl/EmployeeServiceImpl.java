@@ -44,4 +44,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return map.employeeSell(emp);
 	}
 
+	@Override
+	public int employeeInsertKing(EmployeeVO emp) {
+		return map.employeeInsertKing(emp);
+	}
+
 }

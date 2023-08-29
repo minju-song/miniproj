@@ -8,6 +8,7 @@ public interface EmployeeMapper {
 	EmployeeVO employeeSelect(EmployeeVO emp);
 	int employeeUpdate(EmployeeVO emp);
 	int employeeInsert(EmployeeVO emp);
+	int employeeInsertKing(EmployeeVO emp);
 	int employeDelete(EmployeeVO emp);
 	List<EmployeeVO> employeeSelectList();
 	int employeeSell(EmployeeVO emp);

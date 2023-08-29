@@ -30,8 +30,7 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public int orderDelete(OrderVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.orderDelete(vo);
 	}
 
 	@Override

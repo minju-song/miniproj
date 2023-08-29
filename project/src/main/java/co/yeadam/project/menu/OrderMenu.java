@@ -201,14 +201,14 @@ public class OrderMenu {
 		System.out.print("삭제할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		OrderVO o = new OrderVO();
-		OrderFoodVO of = new OrderFoodVO();
+//		OrderFoodVO of = new OrderFoodVO();
 		
 		o.setOrderId(num);
-		of.setOrderId(num);
-		int b = daoOF.orderFoodDelete(of);
+//		of.setOrderId(num);
+//		int b = daoOF.orderFoodDelete(of);
 		int a = daoO.orderDelete(o);
 		
-		if(a == 1 && b >= 1) System.out.println("주문이 영구삭제되었습니다.");
+		if(a == 1 ) System.out.println("주문이 영구삭제되었습니다.");
 		else System.out.println("없는 주문입니다.");
 		
 	}

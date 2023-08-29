@@ -21,7 +21,7 @@
 	</insert>
 	
 	<delete id="orderDelete" parameterType="co.yeadam.project.order.service.OrderVO">
-		DELETE FROM ORDERS WHERE ORDER_ID = #{orderId}
+		DELETE ORDERS WHERE ORDER_ID = #{orderId}
 	</delete>
 	
 	<update id="orderSetPrice" parameterType="co.yeadam.project.order.service.OrderVO">
