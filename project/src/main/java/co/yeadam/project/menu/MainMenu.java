@@ -10,29 +10,33 @@ public class MainMenu {
 	static Scanner sc = new Scanner(System.in);
 	EmployeeService dao = new EmployeeServiceImpl();
 	FoodMenu fm = new FoodMenu();
+	OrderMenu om = new OrderMenu();
+	EmployeeMenu em = new EmployeeMenu();
+	EmployeeVO emp = new EmployeeVO();
 	
+	//시작메뉴
 	public void run() {
+		
 		boolean ck = true;
 		while(ck) {
-			System.out.println("로그인");
-			if(checkLogin() == true) {
+			System.out.println("=*======*=");
+			System.out.println("  로그인");
+			System.out.println("=*======*=");
+			//로그인하여 emp불러옴
+			emp = checkLogin();
+			if(emp != null) {
 				ck = false;
 			}
 		}
-		
-		System.out.println("1.음식메뉴 관리   2.주문관리");
-		System.out.print("선택>> ");
-		int menu = sc.nextInt();
-		switch(menu) {
-		case 1:
-			fm.run();
-			break;
-		case 2:
-			break;
-		}
+		//emp의 직급이 king이면 사장메뉴, 그 외엔 직원메뉴로 이동
+		if(emp.getEmpLevel().equals("king")) em.kingMenu(emp);
+		else em.empMenu(emp);
+
 	}
 	
-	public boolean checkLogin() {
+	
+	//로그인
+	public EmployeeVO checkLogin() {
 		System.out.print("ID>> ");
 		String id = sc.next();
 		System.out.print("PW>> ");
@@ -42,14 +46,16 @@ public class MainMenu {
 		emp.setEmpId(id);
 		emp.setEmpPw(pw);
 		
+		//해당하는 id와 pw를 가진 employee불러옴
 		emp = dao.employeeSelect(emp);
+		//없으면 로그인실패
 		if (emp == null) {
 			System.out.println("로그인 실패");
-			return false;
+			return null;
 		}
 		else {
 			System.out.println(emp.getEmpName()+"님 환영합니다.");
-			return true;
+			return emp;
 		}
 		
 	}

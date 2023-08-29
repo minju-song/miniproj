@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yeadam.project.order.mapper.OrderMapper">
+
+	<select id = "orderSelectList" resultType="co.yeadam.project.order.service.OrderVO">
+		SELECT * FROM ORDERS WHERE ORDER_STATUS = 'ing' ORDER BY ORDER_ID
+	</select>
+	
+	<select id = "orderSelect" resultType="co.yeadam.project.order.service.OrderVO">
+		SELECT * FROM ORDERS WHERE ORDER_ID = #{orderId}
+	</select>
+	
+	<select id = "orderIdSelect" resultType = "Integer">
+		SELECT CASE WHEN MAX(ORDER_ID) IS NULL THEN 1 ELSE MAX(ORDER_ID)+1 END AS ORDER_ID FROM ORDERS
+	</select>
+	
+	<insert id = "orderInsert" parameterType="co.yeadam.project.order.service.OrderVO">
+		INSERT INTO ORDERS (ORDER_ID, ORDER_TABLE, ORDER_PEOPLE, EMP_ID, ORDER_STATUS) VALUES (#{orderId}, #{orderTable}, #{orderPeople}, #{empId}, 'ing')
+	</insert>
+	
+	<delete id="orderDelete" parameterType="co.yeadam.project.order.service.OrderVO">
+		DELETE FROM ORDERS WHERE ORDER_ID = #{orderId}
+	</delete>
+	
+	<update id="orderSetPrice" parameterType="co.yeadam.project.order.service.OrderVO">
+		UPDATE ORDERS O
+			SET ORDER_PRICE = (
+    		SELECT SUM(F.FOOD_PRICE)
+    		FROM FOOD F
+    		JOIN ORDER_FOOD OFD ON F.FOOD_ID = OFD.FOOD_ID
+    		WHERE OFD.ORDER_ID = O.ORDER_ID
+		)
+		WHERE ORDER_ID = #{orderId}
+	</update>
+	
+	<update id="orderUpdateStatus" parameterType="co.yeadam.project.order.service.OrderVO">
+		UPDATE ORDERS SET ORDER_STATUS = #{orderStatus} WHERE ORDER_ID = #{orderId}
+	</update>
+	
+	<select id="orderSellSelect" resultType="Integer">
+		SELECT SUM(ORDER_PRICE) FROM ORDERS WHERE ORDER_STATUS = 'comp'
+	</select>
+	
+	
+</mapper>

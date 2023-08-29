@@ -7,4 +7,31 @@
 	<select id="employeeSelect" resultType="co.yeadam.project.employee.service.EmployeeVO">
 		SELECT * FROM EMPLOYEE WHERE EMP_ID = #{empId} AND EMP_PW = #{empPw}
 	</select>
+	
+	<select id="employeeSelectList" resultType="co.yeadam.project.employee.service.EmployeeVO">
+		SELECT * FROM EMPLOYEE ORDER BY HIRE_DATE
+	</select>
+	
+	<select id="employeeSell" resultType="Integer">
+		SELECT COUNT(*) FROM EMPLOYEE e JOIN ORDERS o ON e.EMP_ID = o.EMP_ID WHERE ORDER_STATUS = 'comp' AND o.EMP_ID=#{empId}
+	</select>
+	
+	<update id="employeeUpdate" parameterType="co.yeadam.project.employee.service.EmployeeVO">
+		UPDATE EMPLOYEE
+		<set>
+			<if test="empName != null">EMP_NAME = #{empName},</if>
+			<if test="empPhone != null">EMP_PHONE = #{empPhone},</if>
+			<if test="empLevel != null">EMP_LEVEL = #{empLevel}</if>
+		</set>
+		WHERE EMP_ID = #{empId}
+	</update>
+	
+	<insert id="employeeInsert" parameterType="co.yeadam.project.employee.service.EmployeeVO">
+		INSERT INTO EMPLOYEE VALUES (#{empId}, #{empPw}, #{empName}, #{empPhone}, 'emp', SYSDATE)
+	</insert>
+	
+	<delete id="employeDelete" parameterType="co.yeadam.project.employee.service.EmployeeVO">
+		DELETE FROM EMPLOYEE WHERE EMP_ID = #{empId} AND emp_name = #{empName}
+	</delete>
+	
 </mapper>

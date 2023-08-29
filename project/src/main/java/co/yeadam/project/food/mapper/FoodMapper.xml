@@ -13,15 +13,29 @@
 	</select>
 
 	<insert id = "foodInsert" parameterType="co.yeadam.project.food.service.FoodVO">
-		 INSERT INTO FOOD VALUES ((SELECT MAX(FOOD_ID)+1 FROM FOOD), #{foodName}, #{foodPrice}, #{foodScript}, 0)
+		 INSERT INTO FOOD VALUES ((SELECT CASE WHEN MAX(FOOD_ID) IS NULL THEN 1 ELSE MAX(FOOD_ID)+1 END AS FOOD_ID FROM FOOD), #{foodName}, #{foodPrice}, #{foodScript})
 	</insert>
 	
-	<update id="foodUpdate" parameterType="co.yeadam.project.food.service.FoodVO">
-		UPDATE FOOD SET FOOD_PRICE = #{foodPrice}, FOOD_SCRIPT = #{foodScript} WHERE FOOD_NAME = #{foodName}
+	<update id="foodUpdate" parameterType="co.yeadam.project.food.service.FoodVO">		
+		UPDATE FOOD
+		<set>
+			<if test="foodPrice != 0">FOOD_PRICE = #{foodPrice},</if>
+			<if test="foodScript != null">FOOD_SCRIPT = #{foodScript}</if>
+		</set>
+		WHERE FOOD_NAME = #{foodName}
 	</update>
 
 	<delete id="foodDelete" parameterType="co.yeadam.project.food.service.FoodVO">
 		 DELETE FROM FOOD WHERE FOOD_NAME = #{foodName}
 	</delete>
+	
+	<select id = "foodListbyOrder" parameterType="co.yeadam.project.orderFood.service.OrderFoodVO" resultType="co.yeadam.project.food.service.FoodVO">
+		 SELECT *
+         FROM FOOD F
+    	 JOIN ORDER_FOOD OFD ON F.FOOD_ID = OFD.FOOD_ID
+    	 WHERE OFD.ORDER_ID = #{orderId}
+	</select>
+	
+
 
 </mapper>

@@ -8,6 +8,7 @@ import co.yeadam.project.common.DataSource;
 import co.yeadam.project.food.mapper.FoodMapper;
 import co.yeadam.project.food.service.FoodService;
 import co.yeadam.project.food.service.FoodVO;
+import co.yeadam.project.orderFood.service.OrderFoodVO;
 
 public class FoodServiceImpl implements FoodService{
 	private SqlSession sqlSession = DataSource.getInstance().openSession(true);
@@ -36,6 +37,11 @@ public class FoodServiceImpl implements FoodService{
 	@Override
 	public int foodUpdate(FoodVO vo) {
 		return map.foodUpdate(vo);
+	}
+
+	@Override
+	public List<FoodVO> foodListbyOrder(OrderFoodVO vo) {
+		return map.foodListbyOrder(vo);
 	}
 
 }

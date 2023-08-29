@@ -1,5 +1,7 @@
 package co.yeadam.project.employee.serviceImpl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
 import co.yeadam.project.common.DataSource;
@@ -15,6 +17,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeVO employeeSelect(EmployeeVO emp) {
 		// TODO Auto-generated method stub
 		return map.employeeSelect(emp);
+	}
+
+	@Override
+	public int employeeUpdate(EmployeeVO emp) {
+		return map.employeeUpdate(emp);
+	}
+
+	@Override
+	public int employeeInsert(EmployeeVO emp) {
+		return map.employeeInsert(emp);
+	}
+
+	@Override
+	public int employeDelete(EmployeeVO emp) {
+		return map.employeDelete(emp);
+	}
+
+	@Override
+	public List<EmployeeVO> employeeSelectList() {
+		return map.employeeSelectList();
+	}
+
+	@Override
+	public int employeeSell(EmployeeVO emp) {
+		return map.employeeSell(emp);
 	}
 
 }

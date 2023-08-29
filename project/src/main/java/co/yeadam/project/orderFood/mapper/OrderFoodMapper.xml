@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.yeadam.project.orderFood.mapper.OrderFoodMapper">
+
+	<insert id = "orderFoodInsert" parameterType="co.yeadam.project.orderFood.service.OrderFoodVO">
+		INSERT INTO ORDER_FOOD VALUES (#{orderId},#{foodId})
+	</insert>
+	
+	<delete id = "orderFoodDelete" parameterType="co.yeadam.project.orderFood.service.OrderFoodVO">
+		DELETE FROM ORDER_FOOD WHERE ORDER_ID = #{orderId}
+	</delete>
+</mapper>
