@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import co.yeadam.project.common.SHA256;
 import co.yeadam.project.employee.service.EmployeeService;
 import co.yeadam.project.employee.service.EmployeeVO;
 import co.yeadam.project.employee.serviceImpl.EmployeeServiceImpl;
@@ -11,7 +12,9 @@ import co.yeadam.project.employee.serviceImpl.EmployeeServiceImpl;
 public class EmployeeMenu {
 	static Scanner sc = new Scanner(System.in);
 	EmployeeService dao = new EmployeeServiceImpl();
+	SHA256 sha256 = new SHA256();
 	
+	//직원 - 마이페이지
 	public void empRun(EmployeeVO emp) {
 		System.out.println();
 		System.out.println("---------[마이페이지 메뉴]---------");
@@ -24,9 +27,11 @@ public class EmployeeMenu {
 			int menu = sc.nextInt();
 			switch(menu) {
 			case 1:
+				//내정보 조회
 				searchInfo(emp);
 				break;
 			case 2:
+				//내정보 수정
 				updateInfo(emp);
 				break;
 			case 3:
@@ -37,6 +42,7 @@ public class EmployeeMenu {
 	}
 	
 	
+	//직원 - 1. 내정보 조회
 	private void searchInfo(EmployeeVO e) {
 		EmployeeVO emp = new EmployeeVO();
 		emp = dao.employeeSelect(e);
@@ -46,6 +52,7 @@ public class EmployeeMenu {
 		System.out.println();
 	}
 	
+	//직원 - 2.내정보 수정
 	private void updateInfo(EmployeeVO e) {
 		EmployeeVO emp = new EmployeeVO();
 		emp.setEmpId(e.getEmpId());
@@ -54,16 +61,19 @@ public class EmployeeMenu {
 		int select = sc.nextInt();
 		switch(select) {
 		case 1:
+			//이름 수정
 			System.out.print("새로운 이름 입력>> ");
 			String name = sc.next();
 			emp.setEmpName(name);
 			break;
 		case 2: 
+			//전화번호 수정
 			System.out.print("새로운 전화번호 입력>> ");
 			String phone = sc.next();
 			emp.setEmpPhone(phone);
 			break;
 		case 3: 
+			//직급 수정
 			System.out.print("새로운 직급 입력>> ");
 			String level = sc.next();
 			emp.setEmpLevel(level);
@@ -76,27 +86,32 @@ public class EmployeeMenu {
 		}
 	}
 	
+	//사장 - 직원관리메뉴
 	public void kingRun(EmployeeVO emp) {
 		System.out.println();
 		System.out.println("-------------------[직원 관리 메뉴]-------------------");
 		boolean run = true;
 		while(run) {	
 			System.out.println("===================================================");
-			System.out.println("1.직원추가   2.직원삭제   3.직원목록   4.직원정보   5.뒤로가기");
+			System.out.println("1.직원추가   2.직원삭제   3.직원목록   4.직원조회   5.뒤로가기");
 			System.out.println("===================================================");
 			System.out.print("선택>> ");
 			int menu = sc.nextInt();
 			switch(menu) {
 			case 1:
+				//직원추가
 				addEmp();
 				break;
 			case 2:
+				//직원삭제
 				deleteEmp();
 				break;
 			case 3:
+				//직원목록
 				listEmp();
 				break;
 			case 4:
+				//직원조회
 				searchEmp();
 				break;
 			case 5:
@@ -106,12 +121,13 @@ public class EmployeeMenu {
 		}
 	}
 	
-	//사장메뉴 - 직원추가
+	//사장메뉴 - 1.직원추가
 	private void addEmp() {
 		System.out.print("아이디 입력>> ");
 		String id = sc.next();
 		System.out.print("비밀번호 입력>> ");
 		String pw = sc.next();
+		pw = sha256.encrypt(pw);
 		System.out.print("이름 입력>> ");
 		String name = sc.next();
 		System.out.print("연락처 입력>> ");
@@ -124,6 +140,7 @@ public class EmployeeMenu {
 
 	}
 	
+	//사장 - 2.직원삭제
 	private void deleteEmp() {
 		EmployeeVO e = new EmployeeVO();
 		System.out.print("삭제할 직원 이름>> ");
@@ -135,10 +152,10 @@ public class EmployeeMenu {
 		int r = dao.employeDelete(e);
 		System.out.println();
 		if(r == 1) System.out.println(e.getEmpName()+"님이 삭제되었습니다.");
-		else System.out.println("삭제에 실패하였습니다.");
+		else System.out.println("존재하지 않는 직원입니다.");
 	}
 	
-	//사장메뉴 - 직원목록
+	//사장 - 3.직원목록
 	private void listEmp() {
 		List<EmployeeVO> emp = new ArrayList<>();
 		emp = dao.employeeSelectList();
@@ -151,21 +168,28 @@ public class EmployeeMenu {
 		
 	}
 	
+	//사장 - 4.직원조회
 	private void searchEmp() {
 		EmployeeVO e = new EmployeeVO();
 		System.out.print("조회할 직원 이름>> ");
 		String name = sc.next();
 		e.setEmpName(name);
-		e = dao.employeeSelectName(e);
-		System.out.println();
-		System.out.println("이름 : "+e.getEmpName());
-		System.out.println("아이디 : "+e.getEmpId());
-		System.out.println("연락처 : "+e.getEmpPhone());
-		System.out.println("입사일 : "+e.getHireDate());
-		System.out.print("직급 : ");
-		if(e.getEmpLevel().equals("king")) System.out.println("사장");
-		else System.out.println("직원");
-		System.out.println("처리한 주문 : "+dao.employeeSell(e)+"건");
+		
+		try {
+			e = dao.employeeSelectName(e);
+			System.out.println();
+			System.out.println("이름 : "+e.getEmpName());
+			System.out.println("아이디 : "+e.getEmpId());
+			System.out.println("연락처 : "+e.getEmpPhone());
+			System.out.println("입사일 : "+e.getHireDate());
+			System.out.print("직급 : ");
+			if(e.getEmpLevel().equals("king")) System.out.println("사장");
+			else System.out.println("직원");
+			System.out.println("처리한 주문 : "+dao.employeeSell(e)+"건");
+			
+		} catch(NullPointerException ex) {
+			System.out.println("존재하지 않는 직원입니다.");
+		}
 		System.out.println();
 	}
 }

@@ -1,5 +1,6 @@
 package co.yeadam.project.menu;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,37 +17,48 @@ public class ReviewMenu {
 	FoodService daoF = new FoodServiceImpl();
 	ReviewService daoR = new ReviewServiceImpl();
 	
+	//고객에게만 보이는 리뷰실행화면
 	public void run() {
 		System.out.println("1.후기조회   2.후기등록");
 		System.out.print(">> ");
 		int menu = sc.nextInt();
 		switch(menu) {
 		case 1:
+			//후기조회
 			searchReview();
 			break;
 		case 2:
+			//후기등록
 			addReview();
 			break;
 		}
 
 	}
 
+	//1. 후기조회
+	//고객 후기메뉴와 직원들의 음식메뉴관리채널에서 호출
 	public void searchReview() {
 		System.out.println();
 		ReviewVO review = new ReviewVO();
+		
+		//현재 메뉴들 모두 출력
 		List<FoodVO> foods = new ArrayList<>();
 		System.out.println("후기를 조회할 메뉴의 번호를 입력해주세요.");
 		System.out.println();
+		
 		foods = daoF.foodSelectList();
 		
 		for(FoodVO f : foods) {
 			System.out.println(f.getFoodId()+"번 - "+"이름:"+f.getFoodName()+" \t 가격:"+f.getFoodPrice());
 		}
 		
+		//메뉴 먼저 출력 후 어떤 메뉴 후기 출력할 지 입력받음
 		System.out.print(">> ");		
 		int foodId = sc.nextInt();
 
 		review.setFoodId(foodId);
+		
+		//사용자가 입력한 foodId를 가진 review 모두 출력
 		List<ReviewVO> reviews = daoR.reviewSelectList(review);
 		System.out.println();
 		int idx = 1;
@@ -56,10 +68,12 @@ public class ReviewMenu {
 		}
 	}
 	
+	//2. 후기등록
 	private void addReview() {
 		System.out.println();
 		ReviewVO review = new ReviewVO();
 		List<FoodVO> foods = new ArrayList<>();
+		//메뉴 먼저 출력
 		System.out.println("후기를 등록할 메뉴의 번호를 입력해주세요.");
 		System.out.println();
 		foods = daoF.foodSelectList();
@@ -68,20 +82,26 @@ public class ReviewMenu {
 			System.out.println(f.getFoodId()+"번 - "+"이름:"+f.getFoodName()+" \t 가격:"+f.getFoodPrice());
 		}
 		
+		//등록할 foodId 입력받음
 		System.out.print(">> ");		
 		int foodId = sc.nextInt();
 		sc.nextLine();
 		
 		review.setFoodId(foodId);
-		
-		System.out.println("후기를 입력해주세요.");
-		System.out.print(">> ");
-		String content = sc.nextLine();
-		review.setReviewContent(content);
-		int n = daoR.insertReview(review);
-		if(n == 1) {			
-			System.out.println(foodId+"번 음식에 후기가 등록되었습니다.");
+		if(daoR.selectReview(review) == null) {
+			System.out.println("없는 메뉴입니다.");
 		}
-		else System.out.println("등록실패");
+		else {			
+			System.out.println("후기를 입력해주세요.");
+			System.out.print(">> ");
+			String content = sc.nextLine();
+			review.setReviewContent(content);
+			int n = daoR.insertReview(review);
+			if(n == 1) {			
+				System.out.println(foodId+"번 음식에 후기가 등록되었습니다.");
+			}
+			else System.out.println("등록실패");
+		}
+		
 	}
 }

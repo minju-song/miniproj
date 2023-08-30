@@ -31,25 +31,32 @@ public class FoodMenu {
 			int s = sc.nextInt();
 			switch(s) {
 			case 1:
+				//전체메뉴조회
 				System.out.println("|전체메뉴조회|");
 				showList();
 				break;
 			case 2:
+				//메뉴상세조회
 				showFood();
 				break;
 			case 3:
+				//메뉴등록
 				addFood();
 				break;
 			case 4:
+				//메뉴수정
 				modifyFood();
 				break;
 			case 5:
+				//메뉴삭제
 				deleteFood();
 				break;
 			case 6:
+				//메뉴순위
 				foodSell();
 				break;
 			case 7:
+				//메뉴후기조회
 				rm.searchReview();
 				break;
 			case 8:
@@ -60,7 +67,7 @@ public class FoodMenu {
 	}
 	
 	
-	//메뉴전체조회
+	//1. 메뉴전체조회
 	public void showList() {
 		
 		List<FoodVO> foods = new ArrayList<>();
@@ -73,21 +80,24 @@ public class FoodMenu {
 
 	}
 	
-	//메뉴상세조회
+	//2. 메뉴상세조회
 	public void showFood() {
 		FoodVO food = new FoodVO();
 		System.out.print("메뉴이름입력>> ");
 		String name = sc.next();
 		food.setFoodName(name);
 		
-		food = dao.foodSelect(food);
+		try {			
+			food = dao.foodSelect(food);
+			food.toString(food);
+		}catch(NullPointerException e) {
+			System.out.println("없는 메뉴입니다.");
+		}
 		
-		food.toString(food);
-//		System.out.println();
 		
 	}
 	
-	//메뉴등록
+	//3. 메뉴등록
 	public void addFood() {
 		FoodVO food = new FoodVO();
 		//사용자에게 이름,가격,설명 입력받음
@@ -114,7 +124,7 @@ public class FoodMenu {
 		}
 	}
 	
-	//메뉴수정
+	//4. 메뉴수정
 	public void modifyFood() {
 		FoodVO food = new FoodVO();
 		
@@ -122,54 +132,68 @@ public class FoodMenu {
 		String menu = sc.next();
 		food.setFoodName(menu);
 		
-		//가격,설명 중 입력받음
-		System.out.println("1.가격수정   2.설명수정");
-		System.out.print(">> ");
-		int select = sc.nextInt();
-		sc.nextLine();
-		
-		//가격은 가격만, 설명은 설명만 입력받음
-		switch(select) {
-		case 1:
-			System.out.print("새로운 가격>> ");
-			int price = sc.nextInt();
+		if(dao.foodSelect(food) == null) {
+			System.out.println("없는 메뉴입니다.");
+		}
+		else {			
+			//가격,설명 중 입력받음
+			System.out.println("1.가격수정   2.설명수정");
+			System.out.print(">> ");
+			int select = sc.nextInt();
 			sc.nextLine();
-			food.setFoodPrice(price);
-			break;
-		case 2:
-			System.out.print("새로운 설명>> ");
-			String script = sc.nextLine();
-			food.setFoodScript(script);
-			break;
+			
+			//가격은 가격만, 설명은 설명만 입력받음
+			switch(select) {
+			case 1:
+				System.out.print("새로운 가격>> ");
+				int price = sc.nextInt();
+				sc.nextLine();
+				food.setFoodPrice(price);
+				break;
+			case 2:
+				System.out.print("새로운 설명>> ");
+				String script = sc.nextLine();
+				food.setFoodScript(script);
+				break;
+			}
+			
+			int r = dao.foodUpdate(food);
+			System.out.println();
+			if(r==1) System.out.println("수정 완료");
+			else System.out.println("수정 실패");
 		}
 
-		int r = dao.foodUpdate(food);
-		System.out.println();
-		if(r==1) System.out.println("수정 완료");
-		else System.out.println("수정 실패");
 	}
 	
-	//메뉴삭제
+	//5. 메뉴삭제
 	public void deleteFood() {
 		FoodVO food = new FoodVO();
 		System.out.print("삭제할 메뉴 이름 입력>> ");
 		String name = sc.next();
 		food.setFoodName(name);
 		
-		int r = dao.foodDelete(food);
-		System.out.println();
+		if(dao.foodSelect(food) == null) {
+			System.out.println("없는 메뉴입니다.");
+		}
+		else {			
+			int r = dao.foodDelete(food);
+			System.out.println();
+			
+			if(r==1) System.out.println("삭제 완료");
+			else System.out.println("삭제 실패");
+		}
 		
-		if(r==1) System.out.println("삭제 완료");
-		else System.out.println("삭제 실패");
 		
 	}
 	
+	//6, 메뉴순위
 	public void foodSell() {
 		System.out.println();
 		System.out.println("[판매 순위]");
 		int idx = 1;
 		
 		
+		//List<Map<String,Object>>로 받음
 		List<Map<String, Object>> food = new ArrayList<Map<String, Object>>();
 		food = dao.foodSell();
 		
@@ -179,19 +203,7 @@ public class FoodMenu {
 			System.out.println(idx+"위) "+f.get("FOOD_NAME")+"   "+f.get("SELL")+"건");
 			idx++;
 		}
-//		
-//		for(int i=0; i<foods.size(); i++) {
-//			int r = dao.foodSell(foods.get(i));
-//			food2.put(foods.get(i), r);
-//		}
-//		
-//		Set<FoodVO> keySet = food2.keySet();
-//		Iterator<FoodVO> keyIterator = keySet.iterator();
-//		while(keyIterator.hasNext()) {
-//			FoodVO key = keyIterator.next();
-//			Integer value = food2.get(key);
-//			System.out.println(idx+"위) "+key+"\t "+value+"건");
-//		}
+
 
 	}
 	

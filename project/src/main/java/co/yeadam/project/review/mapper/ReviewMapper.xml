@@ -7,6 +7,10 @@
 		SELECT * FROM REVIEW WHERE FOOD_ID = #{foodId}
 	</select>
 	
+	<select id="selectReview" resultType="co.yeadam.project.review.service.ReviewVO">
+		SELECT * FROM REVIEW WHERE FOOD_ID = #{foodId}
+	</select>
+	
 	<insert id = "insertReview" parameterType = "co.yeadam.project.review.service.ReviewVO">
 		INSERT INTO REVIEW VALUES ((SELECT CASE WHEN MAX(review_ID) IS NULL THEN 1 ELSE MAX(review_ID)+1 END AS review_ID FROM review), SYSDATE, #{reviewContent}, #{foodId})
 	</insert>

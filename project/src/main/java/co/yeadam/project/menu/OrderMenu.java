@@ -35,24 +35,31 @@ public class OrderMenu {
 			int s = sc.nextInt();
 			switch(s) {
 			case 1:
+				//주문등록
 				addOrder();
 				break;
 			case 2:
+				//진행중인 주문
 				showOrder();
 				break;
 			case 3:
+				//주문상세조회
 				searchOrder();
 				break;
 			case 4:
+				//주문완료처리
 				complOrder(emp);
 				break;
 			case 5:
+				//주문취소처리
 				cancelOrder();
 				break;
 			case 6:
+				//주문삭제
 				deleteOrder();
 				break;
 			case 7:
+				//현재 매출
 				salesOrder();
 				break;
 			case 8:
@@ -61,7 +68,7 @@ public class OrderMenu {
 		}
 	}
 	
-	//주문등록
+	//1. 주문등록
 	public void addOrder() {
 		OrderVO order = new OrderVO();
 		OrderFoodVO of = new OrderFoodVO();
@@ -116,7 +123,8 @@ public class OrderMenu {
 	
 	}
 	
-	//현재 진행중인 주문 리스트 출력
+	
+	//2. 진행중인 주문
 	private void showOrder() {
 		List<OrderVO> orders = new ArrayList<>();
 		orders = daoO.orderSelectList();
@@ -127,7 +135,7 @@ public class OrderMenu {
 		
 	}
 	
-	//주문상세조회
+	//3. 주문상세조회
 	public void searchOrder() {
 		System.out.print("조회할 주문번호 입력>> ");
 		int num = sc.nextInt();
@@ -137,6 +145,7 @@ public class OrderMenu {
 		OrderFoodVO vo2 = new OrderFoodVO();
 		vo.setOrderId(num);
 		vo2.setOrderId(num);
+		
 		vo = daoO.orderSelect(vo);
 		
 		if(vo == null) System.out.println("없는 주문번호입니다.");
@@ -166,7 +175,7 @@ public class OrderMenu {
 		
 	}
 	
-	//주문완료처리
+	//4. 주문완료처리
 	private void complOrder(EmployeeVO emp) {
 		System.out.print("완료처리할 주문번호 입력>> ");
 		int num = sc.nextInt();
@@ -182,7 +191,7 @@ public class OrderMenu {
 		else System.out.println("없는 주문번호입니다.");
 	}
 	
-	//주문취소처리
+	//5. 주문취소처리
 	private void cancelOrder() {
 		System.out.print("취소처리할 주문번호 입력>> ");
 		int num = sc.nextInt();
@@ -198,16 +207,13 @@ public class OrderMenu {
 		
 	}
 	
-	//주문삭제
+	//6. 주문삭제
 	private void deleteOrder() {
 		System.out.print("삭제할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		OrderVO o = new OrderVO();
-//		OrderFoodVO of = new OrderFoodVO();
 		
 		o.setOrderId(num);
-//		of.setOrderId(num);
-//		int b = daoOF.orderFoodDelete(of);
 		int a = daoO.orderDelete(o);
 		
 		if(a == 1 ) System.out.println("주문이 영구삭제되었습니다.");
@@ -216,7 +222,7 @@ public class OrderMenu {
 	}
 
 	
-	//현재판매금액 조회
+	//7. 현재판매금액 조회
 	private void salesOrder() {
 		//status가 comp인 주문만 계산
 		int sell = daoO.orderSellSelect();

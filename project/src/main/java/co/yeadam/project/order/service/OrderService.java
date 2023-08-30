@@ -7,7 +7,6 @@ public interface OrderService {
 	OrderVO orderSelect(OrderVO vo);
 	int orderInsert(OrderVO vo);
 	int orderDelete(OrderVO vo);
-	int orderUpdate(OrderVO vo);
 	int orderIdSelect();
 	int orderSetPrice(OrderVO vo);
 	int orderUpdateStatus(OrderVO vo);

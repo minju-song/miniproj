@@ -34,12 +34,6 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public int orderUpdate(OrderVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int orderIdSelect() {
 		return map.orderIdSelect();
 	}

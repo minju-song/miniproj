@@ -1,7 +1,5 @@
 package co.yeadam.project.menu;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import co.yeadam.project.employee.service.EmployeeService;
@@ -31,12 +29,15 @@ public class MainMenu {
 			int menu = sc.nextInt();
 			switch(menu) {
 			case 1:
+				//음식메뉴로 이동
 				fm.run();
 				break;
 			case 2:
+				//주문메뉴로 이동
 				om.run(emp);
 				break;
 			case 3:
+				//마이페이지로 이동
 				em.empRun(emp);
 				break;
 			case 4:
@@ -59,12 +60,15 @@ public class MainMenu {
 			int menu = sc.nextInt();
 			switch(menu) {
 			case 1:
+				//음식메뉴로 이동
 				fm.run();
 				break;
 			case 2:
+				//주문메뉴로 이동
 				om.run(emp);
 				break;
 			case 3:
+				//직원관리로 이동
 				em.kingRun(emp);
 				break;
 			case 4:
@@ -75,6 +79,7 @@ public class MainMenu {
 		System.out.println("프로그램 종료");
 	}
 	
+	//고객메뉴 
 	public void clientMenu(EmployeeVO emp) {
 		System.out.println();
 		System.out.println("----------------[고객 메뉴]----------------");
@@ -87,12 +92,15 @@ public class MainMenu {
 			int menu = sc.nextInt();
 			switch(menu) {
 			case 1:
+				//주문메뉴 - 메뉴등록 이동
 				om.addOrder();
 				break;
 			case 2:
+				//주문메뉴 - 메뉴조회 이동
 				om.searchOrder();
 				break;
 			case 3:
+				//후기메뉴로 이동
 				rm.run();
 				break;
 			case 4:
