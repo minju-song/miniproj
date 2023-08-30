@@ -7,37 +7,37 @@ ALTER TABLE employee ADD hire_date date default sysdate;
 ALTER TABLE employee DROP COLUMN emp_order;
 ALTER TABLE food DROP COLUMN food_sell;
 
-update employee set emp_phone = '01082251849' where emp_name = '¼Û¹ÎÁÖ';
+update employee set emp_phone = '01082251849' where emp_name = 'ì†¡ë¯¼ì£¼';
 
 select * from food;
 select * from orders;
 select * from employee order by hire_date;
 select * from order_food;
 
-//¿Ï·áÃ³¸®ÇÑ ÁÖ¹®°¹¼ö
+//ì™„ë£Œì²˜ë¦¬í•œ ì£¼ë¬¸ê°¯ìˆ˜
 select count(*) from employee e JOIN orders o on e.emp_id = o.emp_id where order_status = 'comp' and o.emp_id='minju';
     
 delete from orders where order_id = 2;
 
 commit;
 
-//µ¥ÀÌÅÍ»èÁ¦
+//ë°ì´í„°ì‚­ì œ
 delete from orders where order_id = 1;
 delete from food;
 delete from orders;
 delete from employee;
 
-insert into employee values ('minju', 'minju', '¼Û¹ÎÁÖ', '01082251849', 'king', sysdate);
-//case¹®
+insert into employee values ('minju', 'minju', 'ì†¡ë¯¼ì£¼', '01082251849', 'king', sysdate);
+//caseë¬¸
 SELECT CASE WHEN MAX(FOOD_ID) IS NULL THEN 1 ELSE MAX(FOOD_ID)+1 END AS FOOD_ID FROM FOOD;
-//ÁøÇàÁßÀÎ ÁÖ¹®Á¶È¸
+//ì§„í–‰ì¤‘ì¸ ì£¼ë¬¸ì¡°íšŒ
 SELECT * FROM ORDERS where order_status = 'ing';
 SELECT CASE WHEN MAX(ORDER_ID) IS NULL THEN 1 ELSE MAX(ORDER_ID)+1 END AS ORDER_ID FROM ORDERS;
 
-//¿Ü·¡Å° Ãß°¡
+//ì™¸ë˜í‚¤ ì¶”ê°€
 alter table orders add FOREIGN KEY (emp_id) references employee(emp_id) on delete set null;
 
-//Å×ÀÌºí»ı¼º
+//í…Œì´ë¸”ìƒì„±
 create table orders (
 order_id number primary key,
 order_table number,
@@ -46,11 +46,11 @@ order_price number,
 emp_id varchar2(20),
 FOREIGN KEY (emp_id) references employee(emp_id));
 
-insert into food values (1, '¶ó¸é', 4000, '¾È¼ºÅÁ¸é', 0);
+insert into food values (1, 'ë¼ë©´', 4000, 'ì•ˆì„±íƒ•ë©´', 0);
 
 insert into orders (order_id, order_table, order_people, emp_id) values (1, 1, 2, 'minju');
 drop table order_food;
-delete from employee where emp_id = 'emp' and emp_name = 'Á÷¿ø1';
+delete from employee where emp_id = 'emp' and emp_name = 'ì§ì›1';
 
 
 
