@@ -17,7 +17,7 @@
 	</select>
 	
 	<insert id = "orderInsert" parameterType="co.yeadam.project.order.service.OrderVO">
-		INSERT INTO ORDERS (ORDER_ID, ORDER_TABLE, ORDER_PEOPLE, EMP_ID, ORDER_STATUS) VALUES (#{orderId}, #{orderTable}, #{orderPeople}, #{empId}, 'ing')
+		INSERT INTO ORDERS (ORDER_ID, ORDER_TABLE, ORDER_PEOPLE, EMP_ID, ORDER_STATUS) VALUES (#{orderId}, #{orderTable}, #{orderPeople}, null, 'ing')
 	</insert>
 	
 	<delete id="orderDelete" parameterType="co.yeadam.project.order.service.OrderVO">
@@ -36,7 +36,7 @@
 	</update>
 	
 	<update id="orderUpdateStatus" parameterType="co.yeadam.project.order.service.OrderVO">
-		UPDATE ORDERS SET ORDER_STATUS = #{orderStatus} WHERE ORDER_ID = #{orderId}
+		UPDATE ORDERS SET ORDER_STATUS = #{orderStatus}, EMP_ID = #{empId} WHERE ORDER_ID = #{orderId}
 	</update>
 	
 	<select id="orderSellSelect" resultType="Integer">

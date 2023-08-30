@@ -1,12 +1,12 @@
 package co.yeadam.project;
 
-import co.yeadam.project.menu.MainMenu;
+import co.yeadam.project.menu.LoginMenu;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        MainMenu menu = new MainMenu();
+        LoginMenu menu = new LoginMenu();
         menu.run();
     }
 }

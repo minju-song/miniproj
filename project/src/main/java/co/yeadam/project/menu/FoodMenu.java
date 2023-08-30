@@ -1,8 +1,12 @@
 package co.yeadam.project.menu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import co.yeadam.project.employee.service.EmployeeVO;
 import co.yeadam.project.food.service.*;
@@ -11,16 +15,18 @@ import co.yeadam.project.food.serviceImpl.FoodServiceImpl;
 public class FoodMenu {
 	Scanner sc = new Scanner(System.in);
 	FoodService dao = new FoodServiceImpl();
+	ReviewMenu rm = new ReviewMenu();
 	
 	//음식메뉴관리의 시작
 	public void run() {
 		System.out.println();
-		System.out.println("음식 메뉴 관리 채널입니다.");
+		System.out.println("---------------------------------[음식 관리 메뉴]---------------------------------");
 		boolean run = true;
 		while(run) {
-			System.out.println("===================================================================");
-			System.out.println("1.전체메뉴조회   2.메뉴상세조회   3.메뉴등록   4.메뉴수정   5.메뉴삭제   6.뒤로가기");
-			System.out.println("===================================================================");
+			System.out.println();
+			System.out.println("===========================================================================================");
+			System.out.println("1.전체메뉴조회   2.메뉴상세조회   3.메뉴등록   4.메뉴수정   5.메뉴삭제   6.메뉴 순위   7.메뉴 후기   8.뒤로가기");
+			System.out.println("===========================================================================================");
 			System.out.print("선택>> ");
 			int s = sc.nextInt();
 			switch(s) {
@@ -41,6 +47,12 @@ public class FoodMenu {
 				deleteFood();
 				break;
 			case 6:
+				foodSell();
+				break;
+			case 7:
+				rm.searchReview();
+				break;
+			case 8:
 				run=false;
 				break;
 			}
@@ -57,7 +69,6 @@ public class FoodMenu {
 		
 		for(FoodVO f : foods) {
 			System.out.println("이름:"+f.getFoodName()+" \t 가격:"+f.getFoodPrice());
-			System.out.println();
 		}
 
 	}
@@ -72,7 +83,7 @@ public class FoodMenu {
 		food = dao.foodSelect(food);
 		
 		food.toString(food);
-		System.out.println();
+//		System.out.println();
 		
 	}
 	
@@ -152,4 +163,37 @@ public class FoodMenu {
 		else System.out.println("삭제 실패");
 		
 	}
+	
+	public void foodSell() {
+		System.out.println();
+		System.out.println("[판매 순위]");
+		int idx = 1;
+		
+		
+		List<Map<String, Object>> food = new ArrayList<Map<String, Object>>();
+		food = dao.foodSell();
+		
+		
+		
+		for(Map<String, Object> f : food) {
+			System.out.println(idx+"위) "+f.get("FOOD_NAME")+"   "+f.get("SELL")+"건");
+			idx++;
+		}
+//		
+//		for(int i=0; i<foods.size(); i++) {
+//			int r = dao.foodSell(foods.get(i));
+//			food2.put(foods.get(i), r);
+//		}
+//		
+//		Set<FoodVO> keySet = food2.keySet();
+//		Iterator<FoodVO> keyIterator = keySet.iterator();
+//		while(keyIterator.hasNext()) {
+//			FoodVO key = keyIterator.next();
+//			Integer value = food2.get(key);
+//			System.out.println(idx+"위) "+key+"\t "+value+"건");
+//		}
+
+	}
+	
+
 }

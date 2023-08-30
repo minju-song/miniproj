@@ -14,72 +14,96 @@ public class MainMenu {
 	FoodMenu fm = new FoodMenu();
 	OrderMenu om = new OrderMenu();
 	EmployeeMenu em = new EmployeeMenu();
+	ReviewMenu rm = new ReviewMenu();
 	EmployeeVO emp = new EmployeeVO();
 	
-	//시작메뉴
-	public void run() {
-		List<EmployeeVO> e = new ArrayList<>();
-		e = dao.employeeSelectList();
-		if(e.size()==0) singIn();
-		boolean ck = true;
-		while(ck) {
-			System.out.println("=*======*=");
-			System.out.println("  로그인");
-			System.out.println("=*======*=");
-			//로그인하여 emp불러옴
-			emp = checkLogin();
-			if(emp != null) {
-				ck = false;
+	
+	//직원메뉴
+	public void empMenu(EmployeeVO emp) {
+		System.out.println();
+		System.out.println("-----------------[메인 메뉴]-----------------");
+		boolean run = true;
+		while(run) {
+			System.out.println("===========================================");
+			System.out.println("1.음식메뉴 관리   2.주문관리   3.마이페이지   4.종료");
+			System.out.println("===========================================");
+			System.out.print("선택>> ");
+			int menu = sc.nextInt();
+			switch(menu) {
+			case 1:
+				fm.run();
+				break;
+			case 2:
+				om.run(emp);
+				break;
+			case 3:
+				em.empRun(emp);
+				break;
+			case 4:
+				run = false;
 			}
 		}
-		//emp의 직급이 king이면 사장메뉴, 그 외엔 직원메뉴로 이동
-		if(emp.getEmpLevel().equals("king")) em.kingMenu(emp);
-		else em.empMenu(emp);
-
+		System.out.println("프로그램 종료");
 	}
 	
-	//회원가입
-	private void singIn() {
-		System.out.println("회원가입을 진행해주세요.");
-		System.out.print("아이디 입력>> ");
-		String id = sc.next();
-		System.out.print("비밀번호 입력>> ");
-		String pw = sc.next();
-		System.out.print("이름 입력>> ");
-		String name = sc.next();
-		System.out.print("연락처 입력>> ");
-		String phone = sc.next();
-		EmployeeVO e = new EmployeeVO(id,pw,name,phone);
-		int r = dao.employeeInsertKing(e);		
+	//사장메뉴
+	public void kingMenu(EmployeeVO emp) {
 		System.out.println();
-		if (r == 1) System.out.println(e.getEmpName()+"님이 사장으로 등록되었습니다.");
-		else System.out.println("등록에 실패하였습니다.");
-		
+		System.out.println("----------------[메인 메뉴]----------------");
+		boolean run = true;
+		while(run) {
+			System.out.println("========================================");
+			System.out.println("1.음식메뉴 관리   2.주문관리   3.직원관리  4.종료");
+			System.out.println("========================================");
+			System.out.print("선택>> ");
+			int menu = sc.nextInt();
+			switch(menu) {
+			case 1:
+				fm.run();
+				break;
+			case 2:
+				om.run(emp);
+				break;
+			case 3:
+				em.kingRun(emp);
+				break;
+			case 4:
+				run = false;
+				break;
+			}
+		}
+		System.out.println("프로그램 종료");
+	}
+	
+	public void clientMenu(EmployeeVO emp) {
+		System.out.println();
+		System.out.println("----------------[고객 메뉴]----------------");
+		boolean run = true;
+		while(run) {
+			System.out.println("=====================================");
+			System.out.println("1.주문등록   2.주문정보   3.메뉴후기  4.종료");
+			System.out.println("=====================================");
+			System.out.print("선택>> ");
+			int menu = sc.nextInt();
+			switch(menu) {
+			case 1:
+				om.addOrder();
+				break;
+			case 2:
+				om.searchOrder();
+				break;
+			case 3:
+				rm.run();
+				break;
+			case 4:
+				run = false;
+				break;
+			}
+		}
+		System.out.println("프로그램 종료");
 	}
 
 
-	//로그인
-	public EmployeeVO checkLogin() {
-		System.out.print("ID>> ");
-		String id = sc.next();
-		System.out.print("PW>> ");
-		String pw = sc.next();
-		
-		EmployeeVO emp = new EmployeeVO();
-		emp.setEmpId(id);
-		emp.setEmpPw(pw);
-		
-		//해당하는 id와 pw를 가진 employee불러옴
-		emp = dao.employeeSelect(emp);
-		//없으면 로그인실패
-		if (emp == null) {
-			System.out.println("로그인 실패");
-			return null;
-		}
-		else {
-			System.out.println(emp.getEmpName()+"님 환영합니다.");
-			return emp;
-		}
-		
-	}
+	
+
 }

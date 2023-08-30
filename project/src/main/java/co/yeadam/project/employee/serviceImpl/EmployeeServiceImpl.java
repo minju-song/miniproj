@@ -15,7 +15,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeVO employeeSelect(EmployeeVO emp) {
-		// TODO Auto-generated method stub
 		return map.employeeSelect(emp);
 	}
 
@@ -47,6 +46,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public int employeeInsertKing(EmployeeVO emp) {
 		return map.employeeInsertKing(emp);
+	}
+
+	@Override
+	public EmployeeVO employeeSelectName(EmployeeVO emp) {
+		return map.employeeSelectName(emp);
 	}
 
 }

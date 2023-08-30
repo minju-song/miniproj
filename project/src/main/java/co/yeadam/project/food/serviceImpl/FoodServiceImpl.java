@@ -1,6 +1,8 @@
 package co.yeadam.project.food.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -43,5 +45,14 @@ public class FoodServiceImpl implements FoodService{
 	public List<FoodVO> foodListbyOrder(OrderFoodVO vo) {
 		return map.foodListbyOrder(vo);
 	}
+
+	@Override
+	public List<Map<String, Object>> foodSell() {
+		return map.foodSell();
+	}
+
+
+
+
 
 }

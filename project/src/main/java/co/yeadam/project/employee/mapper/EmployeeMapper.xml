@@ -8,6 +8,10 @@
 		SELECT * FROM EMPLOYEE WHERE EMP_ID = #{empId} AND EMP_PW = #{empPw}
 	</select>
 	
+	<select id="employeeSelectName" resultType="co.yeadam.project.employee.service.EmployeeVO">
+		SELECT * FROM EMPLOYEE WHERE EMP_NAME = #{empName}
+	</select>
+	
 	<select id="employeeSelectList" resultType="co.yeadam.project.employee.service.EmployeeVO">
 		SELECT * FROM EMPLOYEE ORDER BY HIRE_DATE
 	</select>

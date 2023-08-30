@@ -5,8 +5,9 @@
 <mapper namespace="co.yeadam.project.food.mapper.FoodMapper">
 
 	<select id = "foodSelectList" resultType="co.yeadam.project.food.service.FoodVO">
-		SELECT * FROM FOOD
+		SELECT * FROM FOOD ORDER BY FOOD_ID
 	</select>
+	
 	
 	<select id = "foodSelect" resultType="co.yeadam.project.food.service.FoodVO">
 		SELECT * FROM FOOD WHERE FOOD_NAME = #{foodName}
@@ -36,6 +37,16 @@
     	 WHERE OFD.ORDER_ID = #{orderId}
 	</select>
 	
+
+	
+	<select id = "foodSell" resultType = "map">
+		select food_name,(select count(*) 
+                    from order_food ofd 
+                    join orders o on ofd.order_id = o.order_id
+                    where f.food_id = ofd.food_id
+                    and o.order_status = 'comp') as sell 
+		from food f order by sell desc
+	</select>
 
 
 </mapper>

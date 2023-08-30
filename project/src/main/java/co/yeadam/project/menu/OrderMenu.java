@@ -23,9 +23,11 @@ public class OrderMenu {
 	
 	//주문관리채널 시작
 	public void run(EmployeeVO emp) {
-		System.out.println("주문 관리 채널입니다.");
+		System.out.println();
+		System.out.println("------------------------------------------[주문 관리 메뉴]------------------------------------------");
 		boolean run = true;
 		while(run) {
+			System.out.println();
 			System.out.println("================================================================================================");
 			System.out.println("1.주문등록   2.진행중인 주문   3.주문 상세조회   4.주문완료처리   5.주문취소처리   6.주문삭제   7.매출조회   8.뒤로가기");
 			System.out.println("================================================================================================");
@@ -33,7 +35,7 @@ public class OrderMenu {
 			int s = sc.nextInt();
 			switch(s) {
 			case 1:
-				addOrder(emp);
+				addOrder();
 				break;
 			case 2:
 				showOrder();
@@ -42,7 +44,7 @@ public class OrderMenu {
 				searchOrder();
 				break;
 			case 4:
-				complOrder();
+				complOrder(emp);
 				break;
 			case 5:
 				cancelOrder();
@@ -60,7 +62,7 @@ public class OrderMenu {
 	}
 	
 	//주문등록
-	private void addOrder(EmployeeVO emp) {
+	public void addOrder() {
 		OrderVO order = new OrderVO();
 		OrderFoodVO of = new OrderFoodVO();
 		List<FoodVO> foods = new ArrayList<>();
@@ -71,7 +73,6 @@ public class OrderMenu {
 		System.out.print("인원수>> ");
 		int people = sc.nextInt();
 		//주문담당직원ID불러와서 저장
-		order.setEmpId(emp.getEmpId());
 		order.setOrderPeople(people);
 		order.setOrderTable(table);
 		//현재 넣어야할 주문번호 불러옴
@@ -127,7 +128,7 @@ public class OrderMenu {
 	}
 	
 	//주문상세조회
-	private void searchOrder() {
+	public void searchOrder() {
 		System.out.print("조회할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		
@@ -166,12 +167,13 @@ public class OrderMenu {
 	}
 	
 	//주문완료처리
-	private void complOrder() {
+	private void complOrder(EmployeeVO emp) {
 		System.out.print("완료처리할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		OrderVO vo = new OrderVO();
 		
 		vo.setOrderId(num);
+		vo.setEmpId(emp.getEmpId());
 		//주문의 status컬럼을 ing->comp
 		vo.setOrderStatus("comp");
 		int r = daoO.orderUpdateStatus(vo);
