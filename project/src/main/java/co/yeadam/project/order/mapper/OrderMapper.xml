@@ -40,7 +40,7 @@
 	</update>
 	
 	<select id="orderSellSelect" resultType="Integer">
-		SELECT SUM(ORDER_PRICE) FROM ORDERS WHERE ORDER_STATUS = 'comp'
+		SELECT NVL(SUM(ORDER_PRICE), 0) FROM ORDERS WHERE ORDER_STATUS = 'comp'
 	</select>
 	
 	

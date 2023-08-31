@@ -23,15 +23,21 @@ public class LoginMenu {
 		List<EmployeeVO> e = new ArrayList<>();
 		e = dao.employeeSelectList();
 		
+		
+		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+		System.out.println("         주 문 관 리 시 스 템        ");
+		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+		
+		System.out.println();
 		//가입되어있는 직원이 없다면 회원가입으로 이동 (첫 가입은 무조건 사장)
 		if(e.size()==0) singIn();
 		
 		
 		boolean ck = true;
 		while(ck) {
-			System.out.println("=============*======*=============");
+			System.out.println("=================*======*=================");
 			System.out.println("  로그인 (손님이면 ID에 손님이라고 입력)  ");
-			System.out.println("=============*======*=============");
+			System.out.println("=================*======*=================");
 			//로그인하여 emp불러옴
 			emp = checkLogin();
 			if(emp != null) {
@@ -47,6 +53,8 @@ public class LoginMenu {
 	
 	//회원가입
 	private void singIn() {
+		System.out.println();
+		System.out.println();
 		System.out.println("회원가입을 진행해주세요.");
 		System.out.print("아이디 입력>> ");
 		String id = sc.next();

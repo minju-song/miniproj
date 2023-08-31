@@ -17,7 +17,7 @@
 	</select>
 	
 	<select id="employeeSell" resultType="Integer">
-		SELECT COUNT(*) FROM EMPLOYEE e JOIN ORDERS o ON e.EMP_ID = o.EMP_ID WHERE ORDER_STATUS = 'comp' AND o.EMP_ID=#{empId}
+		SELECT COUNT(*) FROM EMPLOYEE e JOIN ORDERS o ON e.EMP_ID = o.EMP_ID WHERE ORDER_STATUS = 'comp' AND o.EMP_ID='${empId}'
 	</select>
 	
 	<update id="employeeUpdate" parameterType="co.yeadam.project.employee.service.EmployeeVO">

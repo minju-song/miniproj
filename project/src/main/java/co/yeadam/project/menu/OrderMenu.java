@@ -74,6 +74,7 @@ public class OrderMenu {
 		OrderFoodVO of = new OrderFoodVO();
 		List<FoodVO> foods = new ArrayList<>();
 		
+		System.out.println();
 		//사용자에게 입력받음
 		System.out.print("테이블 번호>> ");
 		int table = sc.nextInt();
@@ -98,6 +99,7 @@ public class OrderMenu {
 		
 		int sum = 0;
 		//주문메뉴 사용자에게 입력받음 (인원수만큼)
+		System.out.println();
 		System.out.println("원하는 메뉴 번호 입력 (1인 1메뉴)");
 		for(int i=0; i<people; i++) {
 			System.out.print("입력>> ");
@@ -111,14 +113,15 @@ public class OrderMenu {
 		
 		if(sum == people) {
 			System.out.println();
-			System.out.println(order.getOrderId()+"번 주문 완료");
+			System.out.println("["+order.getOrderId()+"]번 주문 완료");
 		}
 		
 		//주문넣은 후 마지막에 금액계산
 		int p = daoO.orderSetPrice(order);
 		order = daoO.orderSelect(order);
 		if(p == 1) {
-			System.out.println("주문 합계 금액: "+order.getOrderPrice());
+			System.out.println(">> 주문 합계 금액: "+order.getOrderPrice());
+			System.out.println();
 		}
 	
 	}
@@ -129,14 +132,17 @@ public class OrderMenu {
 		List<OrderVO> orders = new ArrayList<>();
 		orders = daoO.orderSelectList();
 		
+		System.out.println();
 		for(OrderVO o : orders) {
 			System.out.println("주문번호:"+o.getOrderId()+" \t테이블번호:"+o.getOrderTable()+" \t 금액:"+o.getOrderPrice());
 		}
+		System.out.println();
 		
 	}
 	
 	//3. 주문상세조회
 	public void searchOrder() {
+		System.out.println();
 		System.out.print("조회할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		
@@ -177,6 +183,7 @@ public class OrderMenu {
 	
 	//4. 주문완료처리
 	private void complOrder(EmployeeVO emp) {
+		System.out.println();
 		System.out.print("완료처리할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		OrderVO vo = new OrderVO();
@@ -193,6 +200,7 @@ public class OrderMenu {
 	
 	//5. 주문취소처리
 	private void cancelOrder() {
+		System.out.println();
 		System.out.print("취소처리할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		OrderVO vo = new OrderVO();
@@ -209,6 +217,7 @@ public class OrderMenu {
 	
 	//6. 주문삭제
 	private void deleteOrder() {
+		System.out.println();
 		System.out.print("삭제할 주문번호 입력>> ");
 		int num = sc.nextInt();
 		OrderVO o = new OrderVO();
@@ -216,6 +225,7 @@ public class OrderMenu {
 		o.setOrderId(num);
 		int a = daoO.orderDelete(o);
 		
+		System.out.println();
 		if(a == 1 ) System.out.println("주문이 영구삭제되었습니다.");
 		else System.out.println("없는 주문입니다.");
 		

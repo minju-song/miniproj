@@ -46,6 +46,7 @@ public class EmployeeMenu {
 	private void searchInfo(EmployeeVO e) {
 		EmployeeVO emp = new EmployeeVO();
 		emp = dao.employeeSelect(e);
+		System.out.println();
 		System.out.println("이름:"+emp.getEmpName());
 		System.out.println("아이디:"+emp.getEmpId()+" \t직급:"+emp.getEmpLevel());
 		System.out.println("연락처"+emp.getEmpPhone()+" \t입사일:"+emp.getHireDate());
@@ -56,8 +57,10 @@ public class EmployeeMenu {
 	private void updateInfo(EmployeeVO e) {
 		EmployeeVO emp = new EmployeeVO();
 		emp.setEmpId(e.getEmpId());
+		System.out.println();
 		System.out.println("정보수정 페이지입니다.");
 		System.out.println("수정할 정보 선택   1.이름   2.전화번호   3.직급");
+		System.out.print(">> ");
 		int select = sc.nextInt();
 		switch(select) {
 		case 1:
@@ -123,6 +126,7 @@ public class EmployeeMenu {
 	
 	//사장메뉴 - 1.직원추가
 	private void addEmp() {
+		System.out.println();
 		System.out.print("아이디 입력>> ");
 		String id = sc.next();
 		System.out.print("비밀번호 입력>> ");
@@ -143,6 +147,7 @@ public class EmployeeMenu {
 	//사장 - 2.직원삭제
 	private void deleteEmp() {
 		EmployeeVO e = new EmployeeVO();
+		System.out.println();
 		System.out.print("삭제할 직원 이름>> ");
 		String name = sc.next();
 		System.out.print("삭제할 직원 아이디>> ");
@@ -171,6 +176,7 @@ public class EmployeeMenu {
 	//사장 - 4.직원조회
 	private void searchEmp() {
 		EmployeeVO e = new EmployeeVO();
+		System.out.println();
 		System.out.print("조회할 직원 이름>> ");
 		String name = sc.next();
 		e.setEmpName(name);
